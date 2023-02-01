@@ -8,21 +8,19 @@ public class Course {
     this.courseName = courseName;
   }
   
-  private String[] extendStudentsList(String[] students){
+  private void extendStudentsList(){
     this.maxStudents = maxStudents + 100;
     String[] extendList = new String[maxStudents];
-    for (int i = 0; i < numberOfStudents; i++){
-      extendList[i] = this.students[i];
-    }
-    return extendList;
+    System.arraycopy(this.students, 0, extendList, 0, students.length);
+    this.students = extendList;
   }
   
   public void addStudent(String student) {
     if (numberOfStudents == maxStudents){
-      this.students = extendStudentsList(this.students);
-      students[numberOfStudents] = student;
+      extendStudentsList();
+      this.students[numberOfStudents] = student;
     }else{
-      students[numberOfStudents] = student;
+      this.students[numberOfStudents] = student;
     }
     numberOfStudents++;
   }
