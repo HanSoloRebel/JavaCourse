@@ -1,18 +1,37 @@
 public class Course {
   private String courseName;
-  private String[] students = new String[100];
+  private int maxStudents = 100;
+  private String[] students = new String[maxStudents];
   private int numberOfStudents;
     
   public Course(String courseName) {
     this.courseName = courseName;
   }
   
+  private String[] extendStudentsList(String[] students){
+    this.maxStudents = maxStudents + 100;
+    String[] extendList = new String[maxStudents];
+    for (int i = 0; i < numberOfStudents; i++){
+      extendList[i] = this.students[i];
+    }
+    return extendList;
+  }
+  
   public void addStudent(String student) {
-    students[numberOfStudents] = student;
+    if (numberOfStudents == maxStudents){
+      this.students = extendStudentsList(this.students);
+      students[numberOfStudents] = student;
+    }else{
+      students[numberOfStudents] = student;
+    }
     numberOfStudents++;
   }
   
   public String[] getStudents() {
+    String[] students = new String[numberOfStudents];
+    for (int i = 0; i < numberOfStudents; i++){
+      students[i] = this.students[i];
+    }
     return students;
   }
 
@@ -24,5 +43,30 @@ public class Course {
     return courseName;
   }  
   
+  public void dropStudent(String student) {
+    boolean isExist = false;
+    for (int i = 0; i < this.numberOfStudents; i++){
+      if (this.students[i].equals(student)){
+        isExist = true;
+      }
+    }
+    if(isExist){
+      String[] newList = new String[this.maxStudents];
+      for (int i = 0, j = 0; i < this.numberOfStudents; i++){
+        if (this.students[i].equals(student)){
+          continue;
+        }else{
+          newList[j] = this.students[i];
+          ++j;
+        }
+      }
+      this.students = newList;
+      numberOfStudents--;
+    }
+  }
+  
+  public void clearStudentsList(){
+    this.students = new String[maxStudents];
+    this.numberOfStudents = 0;
   }
 }
